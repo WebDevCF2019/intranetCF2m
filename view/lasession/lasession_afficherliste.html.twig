@@ -1,0 +1,41 @@
+    <!-- Page Content -->
+<main role="main" class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">Administration du CF2m</h1>
+                <p class="lead">Gestion des sessions</p>               
+            </div>
+            <div <div class="col-lg-12 text-center">
+            <h4><a href="?insert={{9}}">Ajouter une session</a></h4> 
+            </div>
+            <br>
+            <div class="col-lg-6 text-left">
+                {# Faites apparaître les sections (celles du menu) cliquables dans un nouveau h4, sinon écrivez "Pas encore d'éléments dans le menu" #}
+                {% for item in detailsession %}
+                    <h4 class="mt-3">{{ item.lenom }} | <a href="?update={{ item.idlasession }}">modifier</a> | <a href="?delete={{ item.idlasession }}">supprimer</a></h4>
+                    <p>{{ item.lacronyme }}</p>
+                    <p>{{ item.lannee }}</p>
+                    <p>{{ item.lenumero }}</p>
+                    <p>{{ item.letype }}</p>
+                    <p>{{ item.ledebut }}</p>
+                    <p>{{ item.lafin }}</p>
+                    <h6>Stagiaires:</h6>
+                    {# création de 2 variables pour éclater (avec split) le nom et prénom des stagiaires #}
+                    {% set lenom = item.lenom|split("|||") %}
+                    
+                    {% for detailsession in lenom %}
+                        {# si vide #}
+                        {% if detailsession is empty %}
+                            <p>Pas de session</p>
+                        {% else %}
+                        {# on utilise loop.index0 pour prendre le prénom associé au nom sur lequel on fait la boucle #}
+                        <p>{{ detailsession }} {{ lenom[loop.index0] }}</p>
+                        {%  endif %}
+                    {% endfor %}
+
+                {% else %}
+                <h4 class="mt-3">Pas encore de session sur notre page accueil</h4>
+                {% endfor %}
+            </div>
+        </div>
+</main>
