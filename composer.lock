@@ -336,11 +336,12 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "role": "Lead Developer",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org"
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
+<<<<<<< HEAD
 <<<<<<< HEAD
                     "name": "Twig Team",
                     "homepage": "https://twig.symfony.com/contributors",
@@ -360,6 +361,16 @@
                     "role": "Contributors",
                     "homepage": "https://twig.symfony.com/contributors"
 >>>>>>> 0f8c770aa7fa164f60ee26f72d523d77f8f60612
+=======
+                    "name": "Twig Team",
+                    "homepage": "https://twig.symfony.com/contributors",
+                    "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+>>>>>>> c92e9e693472dfe4c1784afbb748cb01097c91a6
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
