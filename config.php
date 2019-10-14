@@ -8,23 +8,22 @@ define("DB_PORT", "3306");
 define("DB_CHARSET", "utf8");
 
 // default development mode, change to true for product mode
-define("PRODUCT", false);
+define("PRODUCT",false);
 
 /*
- *
- *cheminsd'upload
- *
+ *  chemins d'upload
  */
-define("UPLOAD_RACINE", _DIR_."/img/upload");
+// racine du dossier d'upload
+define("UPLOAD_RACINE", __DIR__."/img/upload/");
 
-// pour envoyer un fichier à télécharger (.doc, .pdf , etc....)
-define("UPLOAD_FILE", UPLOAD_RACINE."dowload/");
+// pour envoyer un fichier à télécharger (.doc, .pdf , etc...)
+define("UPLOAD_FILE",UPLOAD_RACINE."download/");
 
-// chemin pour les images originale
-define("IMG ORIGIN", UPLOAD_RACINE."origin/");
+// chemin pour les images originales
+define("IMG_ORIGIN",UPLOAD_RACINE."origin/");
 
-//chemin pour les images redimensinnées
-define("IMG ORIGIN", UPLOAD_RACINE."medium/");
+// chemin pour les images redimensionnées (avec les proportions)
+define("IMG_ORIGIN",UPLOAD_RACINE."medium/");
 
-// chemin pour les images coupées et demimensionnées
-define("IMG ORIGIN", UPLOAD_RACINE."thumb/");
+// chemin pour les images coupées et redimesionnées (carrées)
+define("IMG_ORIGIN",UPLOAD_RACINE."thumb/");
