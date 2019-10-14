@@ -56,7 +56,7 @@ if (isset($_GET['viewlafiliere'])) {
         $lafiliereM->filiereCreate($newfiliere);
 
         //d($newfiliere,$_POST,$_FILES);
-        // header("Location: ./?viewlafiliere");
+        header("Location: ./?viewlafiliere");
     } else {
 
         echo $twig->render('lafiliere/lafiliere_ajouter.html.twig');
