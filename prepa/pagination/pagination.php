@@ -20,7 +20,7 @@ class pagination
         }else{
             $sortie.="<div>";
             for($i=1;$i<=$nbPages;$i++){
-                 $sortie.=
+                 $sortie.= "<a href='?variableGet=$i'>$i</a>";
 
             }
         }
