@@ -18,7 +18,11 @@ class pagination
             // pas de pagination si non nécessaire
 
         }else{
-            $sortie.="<div>"
+            $sortie.="<div>";
+            for($i=1;$i<=$nbPages;$i++){
+                 $sortie.=
+
+            }
         }
     }
 }
