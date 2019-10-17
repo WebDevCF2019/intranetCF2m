@@ -1,6 +1,8 @@
 <?php
 
-class leroleManager extends pagination
+
+class leroleManager
+
 {
 	
 	private $db;
@@ -85,7 +87,7 @@ class leroleManager extends pagination
 			*
 		FROM
 			lerole
-		LIMIT 3, 10";
+		";
 		$sqlQuery = $this->db->prepare($sql);
 		$sqlQuery->execute();
 		

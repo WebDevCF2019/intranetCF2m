@@ -5,7 +5,7 @@
  */
 class pagination
 {
-    public static function pagine(int $nbTotalElement, int $nbParPage, string $variableGET){
+    public static function pagine(int $nbTotalElement, int $nbParPage, string $variableGET): string {
 
         // variable qui va renvoyer le code HTML de la pagination
         $sortie="";
@@ -20,9 +20,10 @@ class pagination
         }else{
             $sortie.="<div>";
             for($i=1;$i<=$nbPages;$i++){
-                 $sortie.= "<a href='?variableGet=$i'>$i</a>";
-
+                $sortie.= "<a href='?$variableGET=$i'>$i</a> ";
             }
+            $sortie.="</div>";
         }
+        return $sortie;
     }
 }
