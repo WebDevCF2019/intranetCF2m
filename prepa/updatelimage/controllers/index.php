@@ -16,7 +16,7 @@ class index
           //Début des vérifications de sécurité...
           if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
           {
-               $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
+               $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg...';
           }
           if($taille>$taille_maxi)
           {
@@ -41,7 +41,7 @@ class index
 					$miniature = ImageCreateTrueColor( $dest_w, $dest_h);
 					$image = ImageCreateFromJpeg( $dossier . $fichier );
 					ImageCopyResampled( $miniature, $image, 0, 0, 0, 0, $dest_w, $dest_h, $width, $height );
-					ImageJpeg( $miniature, $dossier . 'thumb_' . $fichier, 100 );
+					ImageJpeg( $miniature, $dossier . 'mini_' . $fichier, 100 );
 				}
 				else
 				{
