@@ -193,6 +193,18 @@ if (isset($_GET['viewlafiliere'])) {
 }elseif(isset($_GET["viewutilisateur"])){
 
   echo $twig->render('lutilisateur/lutilisateur_afficher_presence.html.twig',["ajouterLutilisateur"=> $lutilisateurM ->lutilisateurSelectAll()]);
+}elseif(isset($_GET['insertutilisateur'])){
+     if(!empty($_POST)){
+         $newutilisateur =new lutilisateur($_POST);
+         echo $twig->render('lutilisateur/lutilisateur_ajouter.html.twig',['lenom'=>$lutilisateurM->lutilisateurCreate($newutilisateur)]);
+       header('Location: ./?viewutilisateur');
+     }else{
+         echo $twig->render("lutilisateur/lutilisateur_ajouter.html.twig");
+
+
+     }
+
+
 
 }else{
 
