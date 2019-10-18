@@ -19,7 +19,16 @@ if (isset($_GET['confirmationdeletelasession']) && ctype_digit($_GET['confirmati
 // view all filieres
 if (isset($_GET['viewlafiliere'])) {
 
-    echo $twig->render('lafiliere/lafiliere_afficherliste.html.twig', ['detailfiliere' => $lafiliereM->filiereSelectAll()]);
+
+    $paginFiliere = (isset($_GET['pgFiliere'])?(int)$_GET['pgFiliere']:1);
+
+    $nbFiliere = $lafiliereM->selectFiliereCountById();
+
+    $nbPageFiliere = $lafiliereM->selectFiliereWithLimit($paginFiliere,5);
+
+    $PaginationFiliere = pagination::pagine($nbFiliere,5,$paginFiliere,"viewlafiliere&pgFiliere");
+
+    echo $twig->render('lafiliere/lafiliere_afficherliste.html.twig', ['detailfiliere' => $nbPageFiliere, "paginationFiliere"=>$PaginationFiliere]);
 
 // insert a filiere    
 } elseif (isset($_GET['insertlafiliere'])) {
@@ -147,14 +156,18 @@ if (isset($_GET['viewlafiliere'])) {
     // page actuelle
     $pageactu = (isset ($_GET['pg']))?(int)$_GET['pg']:1;
 
+
     // nombre de rôles totaux à afficher
     $nbRoles = $leroleM->selectRoleCountById();
+
 
     // on va récupérer les rôles de la page actuelle
     $articlesPageActu = $leroleM->selectRoleWithLimit($pageactu,1);
 
+
     // création de la pagination
     $affichePagination = pagination::pagine($nbRoles,1,$pageactu,"viewlerole&pg");
+
       
       echo $twig->render('lerole/lerole_afficherliste.html.twig', [ "detailrole"=>$articlesPageActu,"pagination"=>$affichePagination]);
 
@@ -183,5 +196,13 @@ if (isset($_GET['viewlafiliere'])) {
 
 }else{
 
-    echo $twig->render('roles/admin/admin_homepage.html.twig', ['session' => $_SESSION]);
+    // si on vient de se connecter la variable de session n'existe pas (donc affuchage du bandeau)
+    if(!isset($_SESSION['bandeau'])){
+        $pourEntree = true;
+        $_SESSION['bandeau']=true;
+    }else{
+        $pourEntree = false;
+    }
+
+    echo $twig->render('roles/admin/admin_homepage.html.twig', ['entree' => $pourEntree,"session"=>$_SESSION]);
 }
