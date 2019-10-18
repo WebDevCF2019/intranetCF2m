@@ -21,6 +21,8 @@
             </div>
             <div
                 class="col-lg-6 text-left">
+                {% for item in ajouterLutilisateur %}
+
                 {# Affichage du formulaire #}
                 <form action="" method="post" name="createFiliere">
                     <input name="lenom" type="text" placeholder="Titre de la filiere" required><br>
@@ -30,7 +32,8 @@
                 <h3>{{ error }}</h3>
             </div>
         </div>
-    </main>
+    </main> 
+    {% endfor %}
 
 {% endblock %}
 

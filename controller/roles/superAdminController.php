@@ -177,6 +177,10 @@ if (isset($_GET['viewlafiliere'])) {
 
 
 
+}elseif(isset($_GET["viewutilisateur"])){
+
+  echo $twig->render('lutilisateur/lutilisateur_afficher_presence.html.twig',["ajouterLutilisateur"=> $lutilisateurM ->lutilisateurSelectAll()]);
+
 }else{
 
     echo $twig->render('roles/admin/admin_homepage.html.twig', ['session' => $_SESSION]);
