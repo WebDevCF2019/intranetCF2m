@@ -1,5 +1,4 @@
 <?php
-
 /*
  * lasession
  */
@@ -15,39 +14,26 @@ if (isset($_GET['confirmationdeletelasession']) && ctype_digit($_GET['confirmati
     $lasession = new lasession($_POST);
     $lasessionM->sessionCreate($lasession);
 }
-
 // view all filieres
 if (isset($_GET['viewlafiliere'])) {
-
-
     $paginFiliere = (isset($_GET['pgFiliere'])?(int)$_GET['pgFiliere']:1);
-
     $nbFiliere = $lafiliereM->selectFiliereCountById();
-
     $nbPageFiliere = $lafiliereM->selectFiliereWithLimit($paginFiliere,5);
-
     $PaginationFiliere = pagination::pagine($nbFiliere,5,$paginFiliere,"viewlafiliere&pgFiliere");
-
     echo $twig->render('lafiliere/lafiliere_afficherliste.html.twig', ['detailfiliere' => $nbPageFiliere, "paginationFiliere"=>$PaginationFiliere]);
-
 // insert a filiere    
 } elseif (isset($_GET['insertlafiliere'])) {
-
     if (isset($_POST['lenom'])) {
-
         $newfiliere = new lafiliere($_POST);
         //s($newfiliere,$_FILES);
         
         // si on attache une nouvelle images
         if ($_FILES['lepicto']['error']!=4) {
-
             $nouveauNom = uploadDoc::renameDoc($_FILES['lepicto']['name']);
             // changement du nom pour l'insertion dans la db
             $newfiliere->setLepicto($nouveauNom);
-
             // changement du nom pour l'upload de fichier
             $_FILES['lepicto']['name'] = $nouveauNom;
-
             // Appel de la classe statique updloadDoc dans laquelle on va chercher la méthode statique uploadFichier avec ::
             $upload = uploadDoc::uploadFichier($_FILES['lepicto'],
                     ['.png', '.gif', '.jpg', '.jpeg'], // on souhaite que des images
@@ -58,63 +44,43 @@ if (isset($_GET['viewlafiliere'])) {
             // l'image a bien été envoyée    
             }else{
                 // chemin de l'image
-
                 // redimension avec proportion
                 uploadDoc::uploadRedim($upload,IMG_MEDIUM,300,300,90);
                 // redimension avec crop dans l'iamge
                 uploadDoc::uploadThumb($upload,IMG_THUMB,50,50,80);
             }
         }
-
-
         // insertion dans la db
         $lafiliereM->filiereCreate($newfiliere);
-
-
         //d($newfiliere,$_POST,$_FILES);
        header("Location: ./?viewlafiliere");
     } else {
-
         echo $twig->render('lafiliere/lafiliere_ajouter.html.twig');
     }
-
-
-
 // delete a filiere    
 } elseif (isset($_GET['deletelafiliere']) && ctype_digit($_GET['deletelafiliere'])) {
-
     $idlafiliere = (int) $_GET['deletelafiliere'];
-
     // validated delete
     if (isset($_GET['ok'])) {
-
         $lafiliereM->filiereDelete($idlafiliere);
-
         header("Location: ./?viewlafiliere");
     } else {
-
         echo $twig->render('lafiliere/lafiliere_delete.html.twig', ['id' => $idlafiliere]);
     }
-
 // update a filiere    
 } elseif (isset($_GET["updatelafiliere"]) && ctype_digit($_GET["updatelafiliere"])) {
-
     // submit updating filiere
     if (isset($_POST['idlafiliere'])) {
-
         
         $updatelafiliere = new lafiliere($_POST);
         //s($_FILES);
         // si on attache une nouvelle images
         if ($_FILES['lepicto']['error']!=4) {
-
             $nouveauNom = uploadDoc::renameDoc($_FILES['lepicto']['name']);
             // changement du nom pour l'insertion dans la db
             $updatelafiliere->setLepicto($nouveauNom);
-
             // changement du nom pour l'upload de fichier
             $_FILES['lepicto']['name'] = $nouveauNom;
-
             // Appel de la classe statique updloadDoc dans laquelle on va chercher la méthode statique uploadFichier avec ::
             $upload = uploadDoc::uploadFichier($_FILES['lepicto'],['.png', '.gif', '.jpg', '.jpeg'], // on souhaite que des images
                     $folder=IMG_ORIGIN );
@@ -130,72 +96,93 @@ if (isset($_GET['viewlafiliere'])) {
         //s($updatelafiliere);
         $lafiliereM->filiereUpdate($updatelafiliere, $_GET["updatelafiliere"]);
         
-
-
         header("Location: ./?viewlafiliere");
     } else {
-
         echo $twig->render('lafiliere/lafiliere_modifier.html.twig', ['section' => $lafiliereM->filiereSelectById($_GET['updatelafiliere'])]);
     }
-
-
-
-
-
-
 // Display views for sessions
-} elseif (isset($_GET['viewlasession'])) {
-    echo $twig->render("lasession/lasession_afficherliste.html.twig", ['detailsession' => $lasessionM->sessionSelectALL()]);
-} elseif (isset($_GET['updatelasession']) && ctype_digit($_GET['updatelasession'])) {
+}
+elseif (isset($_GET['viewlasession']))
+{
+	$paginSession = (isset($_GET['pgSession'])?(int)$_GET['pgSession']:1);
+    $nbSession = $lasessionM->selectSessionCountById();
+    $nbPageSession = $lasessionM->selectSessionWithLimit($paginSession,5);
+    $PaginationSession = pagination::pagine($nbSession,5,$paginSession,"viewlasession&pgSession");
+	
+	echo $twig->render("lasession/lasession_afficherliste.html.twig", ['detailsession' => $nbPageSession,"pagination"=>$PaginationSession]);
+	
+}
+elseif (isset($_GET['updatelasession']) && ctype_digit($_GET['updatelasession']))
+{
     echo $twig->render("lasession/lasession_modifier.html.twig", ['detailsession' => $lasessionM->sessionSelectByID($_GET['updatelasession']), "filieres" => $lafiliereM->filiereSelectAll()]);
-} elseif (isset($_GET['insertlasession'])) {
+}
+elseif (isset($_GET['insertlasession']))
+{
     echo $twig->render("lasession/lasession_ajouter.html.twig", ["filieres" => $lafiliereM->filiereSelectAll()]);
-
-} elseif(isset($_GET['viewlerole'])) {
-
+}
+elseif(isset($_GET['viewlerole']))
+{
     // page actuelle
     $pageactu = (isset ($_GET['pg']))?(int)$_GET['pg']:1;
-
-
     // nombre de rôles totaux à afficher
     $nbRoles = $leroleM->selectRoleCountById();
-
-
     // on va récupérer les rôles de la page actuelle
-    $articlesPageActu = $leroleM->selectRoleWithLimit($pageactu,1);
+    $articlesPageActu = $leroleM->selectRoleWithLimit($pageactu,2);
 
 
     // création de la pagination
-    $affichePagination = pagination::pagine($nbRoles,1,$pageactu,"viewlerole&pg");
+    $affichePagination = pagination::pagine($nbRoles,2,$pageactu,"viewlerole&pg");
 
       
       echo $twig->render('lerole/lerole_afficherliste.html.twig', [ "detailrole"=>$articlesPageActu,"pagination"=>$affichePagination]);
 
 
-
+ 
       
-      
+//insert un nouveau rôle
+} elseif(isset($_GET['insertLeRole'])){
 
-} elseif(isset($_GET[''])){
+    if(!empty($_POST)){
 
+        $newLeRole = new lerole($_POST);
+
+
+        echo $twig->render('lerole/lerole_ajouter.html.twig',['lintitule'=>$leroleM->insertLerole($newLeRole)]);
+
+      header('Location: ./?viewlerole');
+        }
+          
+    
+    else{
+
+        echo $twig->render('lerole/lerole_ajouter.html.twig');
     
 
+    }
+
+//update un rôlr
+    
+}elseif(isset($_GET['update']) && ctype_digit($_GET['update'])){
+
+    if(!empty($_POST['updateLeRole'])){
+
+        $updateLeRole = new lerole($_POST);
+
+        echo $twig->render('lerole/lerole_modifier.html.twig',['lintitule'=>$leroleM->updateLerole($updateLeRole)]);
 
 
+    }
 
 
-
-          
-
-
-
-
+<<<<<<< HEAD
 }elseif(isset($_GET["viewutilisateur"])){
 
   echo $twig->render('lutilisateur/lutilisateur_afficher_presence.html.twig',["ajouterLutilisateur"=> $lutilisateurM ->lutilisateurSelectAll()]);
 
+=======
+          
+>>>>>>> 23ea741dbdb62c29660e8e0a4b52a64f17a0cd00
 }else{
-
     // si on vient de se connecter la variable de session n'existe pas (donc affuchage du bandeau)
     if(!isset($_SESSION['bandeau'])){
         $pourEntree = true;
@@ -203,6 +190,5 @@ if (isset($_GET['viewlafiliere'])) {
     }else{
         $pourEntree = false;
     }
-
     echo $twig->render('roles/admin/admin_homepage.html.twig', ['entree' => $pourEntree,"session"=>$_SESSION]);
 }
