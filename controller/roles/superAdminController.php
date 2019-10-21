@@ -16,6 +16,23 @@ if (isset($_GET['confirmationdeletelasession']) && ctype_digit($_GET['confirmati
     $lasessionM->sessionCreate($lasession);
 }
 
+
+// view all inscription
+if (isset($_GET['viewlinscription'])) {
+
+
+    $paginFiliere = (isset($_GET['pgInscription']) ? (int)$_GET['pgInscription'] : 1);
+
+    $nbFiliere = $lafiliereM->selectInscriptionCountById();
+
+    $nbPageFiliere = $lafiliereM->selectInscriptionWithLimit($paginInscription, 5);
+
+    $PaginationInscription = pagination::pagine($nbInscription, 5, $paginInscription, "viewlinscription&pgInscription");
+
+    echo $twig->render('linscription/linscription_afficherliste.html.twig', ['detailinscription' => $nbPageInscription, "paginationInscription" => $PaginationInscription]);
+}
+
+
 // view all filieres
 if (isset($_GET['viewlafiliere'])) {
 
