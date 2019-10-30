@@ -131,7 +131,9 @@ $modifLinscription = new linscription($_POST);
       
       
       }else{
+
     echo $twig->render('linscription/linscription_supprimer.html.twig',['id'=>$idDeleteLinscription]);
+
     }
     
 
@@ -155,9 +157,9 @@ $modifLinscription = new linscription($_POST);
 
         }else{
 
+			$_POST['lenomutilisateur'] = $_POST['lenom'] . '.' . $_POST['leprenom'];
+			
             $userUpdate = new lutilisateur($_POST);
-
-
 
             $idroleUpdate = (isset($_POST['idlerole'])) ? $_POST['idlerole'] : [];
 
@@ -167,15 +169,28 @@ $modifLinscription = new linscription($_POST);
 
             if($udateUtilisateur){
 
-                header("Location: ./");
+                header("Location: ./?viewutilisateur");
             }
         }
 //Delete l'utilisateur
 }elseif (isset($_GET['deleteuser'])&& ctype_digit($_GET['deleteuser'])){
 
-    $lutilisateurM->UserDelete($_GET['deleteuser']);
+    $idUtilisateur = (int) $_GET['deleteuser'];
 
-    header("Location: ./?viewutilisateur");
+
+    if(!isset($_GET['ok'])){
+
+
+
+       $deleteuserok =  $lutilisateurM->SelectUserByRoleid($idUtilisateur);
+
+       echo $twig->render("lutilisateur/lutilisateur_supprimer.html.twig",["afficheuser"=>$deleteuserok]);
+
+    }else {
+        $lutilisateurM->UserDelete($idUtilisateur);
+
+        header("Location: ./?viewutilisateur");
+    }
 
 }
 elseif (isset($_GET['viewutilisateur'])){
@@ -190,8 +205,9 @@ elseif (isset($_GET['viewutilisateur'])){
 
 
 
-}elseif(isset($_GET['insertutilisateur'])){
-      if(empty($_POST)){
+} elseif(isset($_GET['insertutilisateur'])) {
+	
+		if(empty($_POST)){
           
           $recupRoles =$leroleM->selectAllLerole();
         
@@ -199,29 +215,24 @@ elseif (isset($_GET['viewutilisateur'])){
           echo $twig->render("lutilisateur/lutilisateur_ajouter.html.twig",["roles"=> $recupRoles]);
           
           
-        }else{
+        } else {
+			
+			$_POST['lenomutilisateur'] = $_POST['lenom'] . '.' . $_POST['leprenom'];
+			
             $newlutilisateur = new lutilisateur($_POST);
 
             $role=(int) $_POST['role'];
 
-           $insert =$lutilisateurM->lutilisateurCreate($newlutilisateur,$role);
+			$insert =$lutilisateurM->lutilisateurCreate($newlutilisateur,$role);
 
-           if($insert){
-               header("Location: ./?viewutilisateur");
-           }
-      }
+			if($insert){
+				header("Location: ./?viewutilisateur");
+			}
+		}
  
 
-
-
-
-
-
-
 }
 
-}
-    
 
 }else{
     // si on vient de se connecter la variable de session n'existe pas (donc affuchage du bandeau)
