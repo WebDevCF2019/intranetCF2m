@@ -17,8 +17,16 @@ require_once "../controller/modules/gestionLasession.php";
 // Delete, Update, Insert conditions for congés
 
 if (isset($_GET['confirmationdeleteleconge']) && ctype_digit($_GET['confirmationdeleteleconge'])) {
-    $lecongeM->deleteConge($_GET['confirmationdeleteleconge']);
-    header("Location: ./?viewleconge");
+    $idDeleteConge = (int) $_GET['confirmationdeleteleconge'];
+
+    if(!isset($_GET['ok'])) {
+        $afficheconge = $lecongeM->lecongeSelectByld($idDeleteConge);
+        echo $twig->render("leconge/leconge_supprimer.html.twig",["afficheconge"=>$afficheconge]);
+
+    } else {
+        $lecongeM->deleteConge($idDeleteConge);
+        header('Location: ./?viewleconge');
+    }
 // Update
 } else if (isset($_POST['idleconge']) && ctype_digit($_POST['idleconge']) && isset($_POST['debut']) && isset($_POST['fin']) && isset($_POST['letype']) && ctype_digit($_POST['letype']) && isset($_POST['lasession_idlasession']) && ctype_digit($_POST['lasession_idlasession'])) {
     $leconge = new leconge($_POST);

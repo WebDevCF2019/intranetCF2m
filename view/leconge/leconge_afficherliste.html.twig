@@ -16,9 +16,9 @@
                 <h1 class="mt-5">Administration du CF2m</h1>
                 <p class="lead">Gestion des congés</p>               
             </div>
-            <div <div class="col-lg-12 text-center">
+            <div  class="col-lg-12 text-center">
             <h4><a href="?insertleconge">Ajouter un congé</a></h4> 
-            </div>
+
             <br>
             <div class="col-lg-6 text-left">
             <div class="pagination">
@@ -30,7 +30,7 @@
                     <h4 class="mt-3">{{ (item.letype == 1 ? "Matin" : item.letype == 2 ? "Après-midi" : "Journée") ~ ' du ' ~ item.debut ~ (item.debut == item.fin ? '' : ' au ' ~ item.fin) }}
                     <div class="content-menu">
                         <a href="?updateleconge={{ item.idleconge }}" class="modified">modifier</a>  
-                        <a class="delete" href="javascript:if(window.confirm('Voulez-vous vraiment supprimer ce congé ?')) location='./?confirmationdeleteleconge={{ item.idleconge }}';">supprimer</a>
+                        <a class="delete" href="?confirmationdeleteleconge={{ item.idleconge }}">supprimer</a>
                     </div>
                     </h4>
 					<p>Formations: TODO</p>
@@ -42,6 +42,7 @@
                 {% endfor %}
 
             </div>
+        </div>
         </div>
 </main>
 
