@@ -134,20 +134,22 @@ else{
 
 //update linscription
 }elseif(isset($_GET['updatelinscription'])&& ctype_digit($_GET['updatelinscription'])) {
-    $testlinscription= (int) $_GET['updatelinscription'];
-    
-    if(isset($_POST["idlutilisateur"])){
-        
-$modifLinscription = new linscription($_POST);
-        $update=$linscriptionM->linscriptionModifier($modifLinscription);
-    
-        
-    }else{
-        s($linscriptionM->linscriptionSelectById($testlinscription),$lutilisateurM->lutilisateurSelectAll(),$lasessionM->sessionSelectALL());
-        echo $twig->render('linscription/linscription_modifier.html.twig',['modifUsers'=> $linscriptionM->linscriptionSelectById($testlinscription),
-        'detailUsers' => $lutilisateurM->lutilisateurSelectAll(), 'detailSession' => $lasessionM->sessionSelectALL()]);
+
+    $afficheInscription = $linscriptionM->SelectAllInscriptionWithUserAndSession($_GET['updatelinscription']);
+
+    if(empty($_POST)){
+
+        echo $twig->render('linscription/linscription_modifier.html.twig',['afficheinscription'=>$afficheInscription]);
 
         
+    }else{
+
+        $modifLinscription = new linscription($_POST);
+
+        $update=$linscriptionM->updateLinscription($modifLinscription);
+
+            header("Location: ./?viewlinscription");
+
     }
 
 
