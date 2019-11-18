@@ -23,7 +23,7 @@
                 {# Affichage du formulaire d'inscription #}
                 <form action="" method="post" name"linscriptioncreate">
 
-                   
+
                    
                     <label for="utilisateur.idutilisateur">Nom de l'utilisateur&nbsp</label>
 					<select id="utilisateur.idutilisateur" name="utilisateur.idutilisateur" required>
@@ -42,7 +42,7 @@
 
                    
                     
-                    <input onclick="if( $('#debut').val() > $('#fin').val() ) {$('#debutError').css('visibility', 'visible'); $('#debut').css('box-shadow', '0 0 3px 1px red'); event.preventDefault();}" type="submit" value="Inscription">
+                    <input onclick="if( $('#debut').val() > $('#fin').val() ) {$('#debutError').css('visibility', 'visible'); $('#debut').css('box-shadow', '0 0 3px 1px red'); event.preventDefault();}" type="submit" value="Envoyer">
                 </form>
                 <h3>{{ error }}</h3>
             </div>
