@@ -130,9 +130,10 @@ elseif (isset($_GET['insertleconge']))
 }elseif (isset($_GET["ajouterlinscription"])) {
     if(!empty($_POST)){
         $newlinscription = new linscription($_POST);
-        s($_POST,$newlinscription);
+
         // insertion
         $insert=$linscriptionM->linscriptionCreate($newlinscription);
+        header("Location: ./?viewlinscription");
         }
 
 else{
