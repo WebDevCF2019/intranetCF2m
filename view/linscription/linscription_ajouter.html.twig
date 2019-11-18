@@ -24,7 +24,10 @@
                 <form action="" method="post" name"linscriptioncreate">
 
 
-                   
+                <div class="form-group">
+                    <label for="debut">Debut</label>
+                    <input type="date" class="form-control" name='debut' id="debut" placeholder="ici votre titre" value='{{ afficheinscription.debut }}'>
+                </div>
                     <label for="utilisateur.idutilisateur">Nom de l'utilisateur&nbsp</label>
 					<select id="utilisateur.idutilisateur" name="utilisateur.idutilisateur" required>
                     {% for utilisateur in detailUsers %}

@@ -304,6 +304,33 @@ public function deleteLinscription(int $id): void {
 
         }
     }
+    public function SelectAllInscription( int $id ){
+        $sql = "SELECT i.idlinscription,i.debut,i.fin,l.idlutilisateur,l.lenomutilisateur,s.lenom,e.lintitule
+                FROM linscription i
+                INNER JOIN lutilisateur l 
+                ON l.idlutilisateur = i.utilisateur_idutilisateur
+                INNER JOIN lutilisateur_has_lerole ll
+                ON ll.lutilisateur_idutilisateur = l.idlutilisateur
+                INNER JOIN lerole e 
+                ON e.idlerole = ll.lerole_idlerole
+                INNER JOIN lasession s 
+                ON s.idlasession = i.lasession_idsession
+                WHERE e.lintitule = 'Stagiaire' ";
+
+        $recup = $this->db->query($sql);
+
+        try {
+
+            $recup->execute();
+            return $recup->fetchALL(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+
+            echo '<h2 style="color: red;">ERROR: ' . $e->getMessage() . '</h2>';
+            return false;
+
+        }
+    }
 
 
 
