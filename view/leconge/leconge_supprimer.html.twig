@@ -1,0 +1,47 @@
+
+{% extends "template.html.twig" %}
+
+
+{% block title %}
+    {{ parent() }}
+    | Admin | Supprimer un congé
+{% endblock %}
+
+
+
+{% block milieu %}
+
+    <!-- Page Content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">Supprimer un congé </h1>
+            </div>
+
+            <br><br><br> <br><br><br> <br><br><br>
+            <div
+                class="col-lg-6 text-left">
+                {# Affichage du formulaire #}
+                <h2>Confirmez la suppression de  :</h2><br><br>
+                  <h4> Date de debut : {{ afficheconge.debut}}</h4>
+
+                    <h4>Date de fin : {{ afficheconge.fin }}</h4>
+
+                <div>
+                 <br><br>
+                    <a type="button" href="?confirmationdeleteleconge={{ afficheconge.idleconge }}&ok" class="btn btn-primary">Supprimer</a>
+
+                    <a type="button" href="?viewleconge" class="btn btn-secondary">Annuler</a>
+                </div>
+
+
+                <h3>{{ error }}</h3>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block bas %}
+    {% include "footer.html.twig" %}
+{% endblock %}

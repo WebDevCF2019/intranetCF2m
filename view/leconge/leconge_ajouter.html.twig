@@ -18,21 +18,37 @@
             </div>
             <div class="col-lg-6 text-left">
                 {# Affichage du formulaire #}
-                <form action="./?viewleconge" method="post">			
-					<label for="debut">Début de congé&nbsp</label><input id="debut" name="debut" type="date" max="2100-12-12" required>&nbsp<span id="debutError" style="color: red; visibility: hidden;">La date de début est postérieure à la date de fin !</span><br><br>
-					<label for="fin">Fin de congé&nbsp</label><input id="fin" name="fin" type="date" max="2100-12-12" required><br><br>
-					<label for="letype">Type de congé&nbsp</label>
-					<select id="letype" name="letype" required>
-						<option value="1">Matin</option>
-						<option value="2">Après-midi</option>
-						<option value="3">Journée</option>
-					</select><br><br>
-					<label for="lasession_idlasession">Sessions concernées&nbsp</label>
-					<select id="lasession_idlasession" name="lasession_idlasession" required multiple>
-					{% for session in sessions %}
-						<option class="sessions" value="{{ session.idlasession }}">{{ session.lenom }}</option>
-					{% endfor %}
-					</select><br><br>
+				<form method='POST' name='monForm' action='./?viewleconge'>
+
+					<input type="hidden" name="idleconge" id="content-admin" value='{{ detailConge.idleconge }}'>
+
+					<div class="form-group">
+						<label for="debut">Début de congé&nbsp </label>
+						<input type="date" class="form-control"  id="debut" placeholder="ici votre titre" value='{{ detailConge.debut }}' required name='debut'>&nbsp<span id="debutError" style="color: red; visibility: hidden;">La date de début est postérieure à la date de fin !</span>
+					</div>
+					<div class="form-group">
+						<label for="fin">Fin de congé&nbsp</label>
+						<input type="date" class="form-control" id="fin" placeholder="ici votre titre" value='{{ detailConge.fin }}'  name='fin'>
+					</div>
+					<div class="form-group">
+						<label for="letype">Type de congé&nbsp</label>
+						<select id="letype" name="letype" required>
+							<option value="1" {{ detailConge.letype == 1 ? 'selected' }}>Matin</option>
+							<option value="2" {{ detailConge.letype == 2 ? 'selected' }}>Après-midi</option>
+							<option value="3" {{ detailConge.letype == 3 ? 'selected' }}>Journée</option>
+						</select>
+					</div>
+					<div class="form-group">
+
+						<label for="lasession_idlasession">Sessions concernées&nbsp</label>
+						<select id="lasession_idlasession" name ="lasession_idlasession"  class="form-control" required >
+							<option value=""> -- Choix de session --</option>
+                            {% for session in sessions %}
+								<option value="{{ session.idlasession }}" {{ detailConge.lasession_idlasession == session.idlasession ? 'selected' }}>{{ session.lenom }}</option>
+                            {% endfor %}
+						</select>
+
+					</div>
 					<input onclick="if( $('#debut').val() > $('#fin').val() ) {$('#debutError').css('visibility', 'visible'); $('#debut').css('box-shadow', '0 0 3px 1px red'); event.preventDefault();}" type="submit" value="Envoyer">
                 </form>				
                 <h3>{{ error }}</h3>
