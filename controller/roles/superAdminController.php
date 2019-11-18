@@ -137,7 +137,7 @@ elseif (isset($_GET['insertleconge']))
         }
 
 else{
-    echo $twig->render("linscription/linscription_ajouter.html.twig", ['detailUsers' => $lutilisateurM->lutilisateurSelectAll(), 'detailSession' => $lasessionM->sessionSelectALL()]);
+    echo $twig->render("linscription/linscription_ajouter.html.twig", ['detailUsers' => $linscriptionM->SelectAllInscription()]);
 
 }
 

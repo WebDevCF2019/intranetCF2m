@@ -304,7 +304,7 @@ public function deleteLinscription(int $id): void {
 
         }
     }
-    public function SelectAllInscription( int $id ){
+    public function SelectAllInscription(){
         $sql = "SELECT i.idlinscription,i.debut,i.fin,l.idlutilisateur,l.lenomutilisateur,s.lenom,e.lintitule
                 FROM linscription i
                 INNER JOIN lutilisateur l 
