@@ -71,6 +71,7 @@ public function selectLinscription(int $id): array {
         // gestion des erreurs avec try catch
         try {
             $insert->execute();
+
             return true;
 
         } catch (PDOException $e) {
@@ -81,28 +82,24 @@ public function selectLinscription(int $id): array {
 
     }
 
-    public function updateLinscription(int $id, array $datas)
+    public function updateLinscription(linscription $inscription)
     {
-        $updateDatas = "";
-        foreach ($datas as $dataField => $data) {
-            $updateDatas .= $dataField . " = '" . $data . "', ";
+        $sql = "UPDATE linscription SET debut = :debut,fin = :fin
+                           WHERE idlinscription = :idlinscription";
+
+        $sqlQuery = $this->db->prepare($sql);
+        $sqlQuery->bindValue(":debut", $inscription->getDebut(), PDO::PARAM_STR);
+        $sqlQuery->bindValue(":fin", $inscription->getFin(), PDO::PARAM_STR);
+        $sqlQuery->bindValue("idlinscription", $inscription->getIdlinscription(), PDO::PARAM_INT);
+        try {
+
+            $sqlQuery->execute();
+
+        } catch (PDOException $e) {
+
+            echo '<h2 style="color: red;">ERROR: ' . $e->getMessage() . '</h2>';
         }
-        $updateDatas = substr($updateDatas, 0, -2);
-
-        $sql = "
-	UPDATE
-		linscription
-	SET
-		" . $updateDatas . "
-	WHERE
-		idlinscription = :id;";
-
-	$sqlQuery = $this->db->prepare($sql);
-	$sqlQuery->bindParam(":id", $id, PDO::PARAM_INT);
-	$sqlQuery->execute();
-
-	/*return $sqlQuery->fetch(PDO::FETCH_ASSOC);*/
-}
+    }
 
 
 public function insertLinscription(array $datas): void {
@@ -283,6 +280,33 @@ public function deleteLinscription(int $id): void {
 		$sqlQuery->execute();
 		
     }
+    public function SelectAllInscriptionWithUserAndSession( int $id ){
+        $sql = "SELECT i.idlinscription,i.debut,i.fin,l.idlutilisateur,l.lenomutilisateur,s.lenom
+                FROM linscription i
+                INNER JOIN lutilisateur l 
+                ON l.idlutilisateur = i.utilisateur_idutilisateur
+                INNER JOIN lasession s 
+                ON s.idlasession = i.lasession_idsession
+                WHERE i.idlinscription = :id
+";
+
+        $recup = $this->db->prepare($sql);
+        $recup->bindValue(':id',$id,PDO::PARAM_INT);
+        try {
+
+            $recup->execute();
+            return $recup->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+
+            echo '<h2 style="color: red;">ERROR: ' . $e->getMessage() . '</h2>';
+            return false;
+
+        }
+    }
+
+
+
 	
 
 public function inscriptionAllSelectWithUser(int $page ,int $nbParPage ) : array {

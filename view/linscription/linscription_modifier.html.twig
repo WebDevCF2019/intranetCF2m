@@ -15,25 +15,31 @@
                 <p class="lead">Admin | Modifier une inscription</p>
             </div>
             <div class="col-lg-10 text-left">
-                
-                {# Affichage du formulaire d'inscription #}
-                <form action="./?viewlinscription" method="post" name"updatelinscription">
 
-                    <label for="idla">Nom de l'utilisateur&nbsp</label>
-					<select id="lutilisateur.idlutilisateur" name="lutilisateur.idlutilisateur" required>
-                    {% for utilisateur in detailUsers %}
-						<option value="{{ utilisateur.idlutilisateur }}">{{ utilisateur.lenom }} {{utilisateur.leprenom }}</option>
-					{% endfor %}
-                    </select><br><br>
-                    <label for="lasession.idlasession">Nom de la session&nbsp</label>
-					<select id="lasession.idlasession" name="lasession.idlasession" required>
-					{% for lasession in detailSession %}
-						<option value="{{ lasession.idlasession }}">{{lasession.lenom }}  </option>
-					{% endfor %}
-					</select><br><br>
-					<label for="debut">Début de session&nbsp</label><input id="debut" name="debut" type="date" max="2100-12-12" required>&nbsp<span id="debutError" style="color: red; visibility: hidden;">La date de début est postérieure à la date de fin !</span><br><br>
-					<label for="fin">Fin de session&nbsp</label><input id="fin" name="fin" type="date" max="2100-12-12" required><br><br>
-                    <input onclick="if( $('#debut').val() > $('#fin').val() ) {$('#debutError').css('visibility', 'visible'); $('#debut').css('box-shadow', '0 0 3px 1px red'); event.preventDefault();}" type="submit" value="Inscription">
+                <form method='POST' name='monForm' action=''>
+
+                    <input type="hidden" name="idlinscription" id="content-admin" value='{{ afficheinscription.idlinscription }}'>
+                    <div class="form-group">
+                        <label for="utilisateur_idutilisateur">Nom de l'utilisateur</label>
+                        <input type="text" class="form-control"  id="utilisateur_idutilisateur" readonly="readonly" placeholder="ici votre titre" value='{{ afficheinscription.lenomutilisateur }}' required name='utilisateur_idutilisateur'>
+                    </div>
+                    <div class="form-group">
+                        <label for="lasession_idsession">Session</label>
+                        <input type="text" class="form-control" id="lasession_idsession" readonly="readonly" placeholder="ici votre titre" value='{{ afficheinscription.lenom }}'  name='lasession_idsession'>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="debut">Debut</label>
+                        <input type="date" class="form-control" name='debut' id="debut" placeholder="ici votre titre" value='{{ afficheinscription.debut }}'>
+                    </div>
+                    <div class="form-group">
+                        <label for="fin">Fin</label>
+                        <input type="date" class="form-control" name='fin' id="fin" placeholder="ici votre titre" value='{{ afficheinscription.fin }}'>
+                    </div>
+
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Modifier</button>
                 </form>
                 <h3>{{ error }}</h3>
             </div>

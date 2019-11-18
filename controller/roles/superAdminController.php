@@ -17,8 +17,16 @@ require_once "../controller/modules/gestionLasession.php";
 // Delete, Update, Insert conditions for congés
 
 if (isset($_GET['confirmationdeleteleconge']) && ctype_digit($_GET['confirmationdeleteleconge'])) {
-    $lecongeM->deleteConge($_GET['confirmationdeleteleconge']);
-    header("Location: ./?viewleconge");
+    $idDeleteConge = (int) $_GET['confirmationdeleteleconge'];
+
+    if(!isset($_GET['ok'])) {
+        $afficheconge = $lecongeM->lecongeSelectByld($idDeleteConge);
+        echo $twig->render("leconge/leconge_supprimer.html.twig",["afficheconge"=>$afficheconge]);
+
+    } else {
+        $lecongeM->deleteConge($idDeleteConge);
+        header('Location: ./?viewleconge');
+    }
 // Update
 } else if (isset($_POST['idleconge']) && ctype_digit($_POST['idleconge']) && isset($_POST['debut']) && isset($_POST['fin']) && isset($_POST['letype']) && ctype_digit($_POST['letype']) && isset($_POST['lasession_idlasession']) && ctype_digit($_POST['lasession_idlasession'])) {
     $leconge = new leconge($_POST);
@@ -134,20 +142,22 @@ else{
 
 //update linscription
 }elseif(isset($_GET['updatelinscription'])&& ctype_digit($_GET['updatelinscription'])) {
-    $testlinscription= (int) $_GET['updatelinscription'];
-    
-    if(isset($_POST["idlutilisateur"])){
-        
-$modifLinscription = new linscription($_POST);
-        $update=$linscriptionM->linscriptionModifier($modifLinscription);
-    
-        
-    }else{
-        s($linscriptionM->linscriptionSelectById($testlinscription),$lutilisateurM->lutilisateurSelectAll(),$lasessionM->sessionSelectALL());
-        echo $twig->render('linscription/linscription_modifier.html.twig',['modifUsers'=> $linscriptionM->linscriptionSelectById($testlinscription),
-        'detailUsers' => $lutilisateurM->lutilisateurSelectAll(), 'detailSession' => $lasessionM->sessionSelectALL()]);
+
+    $afficheInscription = $linscriptionM->SelectAllInscriptionWithUserAndSession($_GET['updatelinscription']);
+
+    if(empty($_POST)){
+
+        echo $twig->render('linscription/linscription_modifier.html.twig',['afficheinscription'=>$afficheInscription]);
 
         
+    }else{
+
+        $modifLinscription = new linscription($_POST);
+
+        $update=$linscriptionM->updateLinscription($modifLinscription);
+
+            header("Location: ./?viewlinscription");
+
     }
 
 
