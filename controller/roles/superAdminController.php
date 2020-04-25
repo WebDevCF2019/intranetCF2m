@@ -89,13 +89,23 @@ elseif (isset($_GET['insertleconge']))
 //update un rôle
     
 }elseif(isset($_GET['updateLeRole']) && ctype_digit($_GET['updateLeRole'])){
-    if(isset($_POST['idlerole'])){
-        $updateLeRole = new lerole($_POST);
-        $leroleM->updateLerole($updateLeRole);
-        header("Location: ./?viewlerole");
-    }else{
-        echo $twig->render('lerole/lerole_modifier.html.twig',['section'=>$leroleM->roleSelectById($_GET['updateLeRole'])]);
-    }
+
+    $RoleUpdate= $leroleM->roleSelectById($_GET['updateLeRole']);
+
+    echo $twig->render("lerole/lerole_modifier.html.twig", ["datas" => $RoleUpdate]);
+ if(!empty($_POST)){
+     
+    $updateRole = new leRole($_POST);
+     $leroleM->updateLerole($updateRole);
+            header('Location: ./?viewlerole');
+
+
+
+ }
+    
+
+
+
 //delete le role
 }elseif(isset($_GET['deleteLeRole']) && ctype_digit($_GET['deleteLeRole'])){
     $idDeleteRole = (int)$_GET['deleteLeRole'];
@@ -103,7 +113,7 @@ elseif (isset($_GET['insertleconge']))
         $leroleM->deleteLerole($idDeleteRole);
         header("Location: ./?viewlerole");
       
-      
+         
       }else{
     echo $twig->render('lerole/lerole_delete.html.twig',['id'=>$idDeleteRole]);
     }

@@ -64,6 +64,30 @@ class leroleManager
         }
     }
 
+    public function updateLerole(lerole $lerole){
+           if(empty($lerole->getLintitule())|| empty($lerole->getLadescription())|| empty($lerole->getIdlerole())){
+                   return false;
+
+     }
+     $sql ="UPDATE lerole set lintitule=?, ladescription=? WHERE idlerole=?;";
+             
+     $update =$this->db->prepare($sql);
+      $update->bindValue(1, $lerole->getLintitule(), PDO::PARAM_STR);
+      $update->bindValue(2, $lerole->getLadescription(), PDO::PARAM_STR);
+        $update->bindValue(3, $lerole->getIdlerole(), PDO::PARAM_STR);
+      try{
+
+             $update->execute();
+                return true;
+            }catch(PDOException $e){
+                   echo $e->getMessage();
+                   return false;
+
+        }
+
+
+     }
+
     public function insertLerole(lerole $datas)
     {
         $sql = "
