@@ -222,11 +222,12 @@ public function selectCongeWithLimit(int $pageConge,int $nbParPageConge): array{
 
 	$premsLIMIT = ($pageConge-1)*$nbParPageConge;
 	$sql = "
-	SELECT
-		*
-	FROM
-		leconge
-	ORDER BY debut DESC
+	SELECT la.idlasession,la.lenom,le.*
+  FROM lasession la
+    INNER JOIN lasession_has_leconge ll 
+    ON ll.lasession_idlasession = la.idlasession
+    INNER JOIN leconge le 
+    ON le.idleconge = ll.leconge_idleconge
 	LIMIT  ?, ?
 	";
 	$sqlQuery = $this->db->prepare($sql);

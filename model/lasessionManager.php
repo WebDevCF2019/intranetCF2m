@@ -340,5 +340,21 @@ class lasessionManager
 
 
     }
+    public function selectSessionWithConge() : array {
+        $sql = "SELECT la.idlasession,la.lenom
+  FROM lasession la
+    INNER JOIN lasession_has_leconge ll 
+    ON ll.lasession_idlasession = la.idlasession
+    INNER JOIN leconge le 
+    ON le.idleconge = ll.leconge_idleconge";
+
+        $recup = $this->db->query($sql);
+
+        if($recup->rowCount()===0){
+            return [];
+        } else {
+            return $recup->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
 
 }
